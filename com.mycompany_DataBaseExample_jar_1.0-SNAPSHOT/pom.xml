@@ -97,5 +97,5 @@
             <version>3.43.0.0</version>
         </dependency>
     </dependencies>
-    <name>DataBaseExample2</name>
+    <name>BookProject</name>
 </project>

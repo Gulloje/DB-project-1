@@ -120,6 +120,7 @@ public class DatabaseSQLiteController implements Initializable {
             // Ensure we can query the actors table
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
+            System.out.println(rs.getInt("id") + rs.getString("name"));
 
             while (rs.next()) {
                 //Movie movie;
