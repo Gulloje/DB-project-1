@@ -10,26 +10,26 @@ package com.mycompany.databaseexample;
  */
 public class Member {
     private String name;
-    private int LibraryNum;
+    private int LibraryNumber;
     
     
-    Member(int memNum, String name ) {
-        this.LibraryNum = memNum;
+    Member(int LibraryNumber, String name ) {
+        this.LibraryNumber = LibraryNumber;
         this.name = name;
     }
 
     /**
-     * @return the LibraryNum
+     * @return the LibraryNumber
      */
-    public int getMemNum() {
-        return LibraryNum;
+    public int getLibraryNumber() {
+        return LibraryNumber;
     }
 
     /**
-     * @param memNum the LibraryNum to set
+     * @param memNum the LibraryNumber to set
      */
     public void setMemNum(int memNum) {
-        this.LibraryNum = memNum;
+        this.LibraryNumber = memNum;
     }
 
     /**

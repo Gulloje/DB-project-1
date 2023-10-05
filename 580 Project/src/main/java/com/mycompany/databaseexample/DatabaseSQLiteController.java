@@ -172,7 +172,7 @@ public class DatabaseSQLiteController implements Initializable {
                 //data.add(movie);
                 Member member;
                 member = new Member(rsMem.getInt("LibraryNumber"), rsMem.getString("Name"));
-                System.out.println( member.getMemNum() + member.getName());
+                System.out.println( member.getLibraryNumber() + member.getName());
                 memData.add(member);
             }
 
