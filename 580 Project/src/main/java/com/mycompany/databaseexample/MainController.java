@@ -77,10 +77,10 @@ public class MainController {
     }   
     
     @FXML
-    private void checkedOut() throws IOException {
+    private void members() throws IOException {
 
         try {
-            Pane newLoadedPane = FXMLLoader.load(getClass().getResource("CheckedOut.fxml"));
+            Pane newLoadedPane = FXMLLoader.load(getClass().getResource("Members.fxml"));
             contentPane.getChildren().clear();
             contentPane.getChildren().add(newLoadedPane);
 

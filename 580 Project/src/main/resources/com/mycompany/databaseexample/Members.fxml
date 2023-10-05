@@ -40,12 +40,12 @@
     <left>
         <VBox prefHeight="588.0" prefWidth="192.0" styleClass="sidebar-section">
             <children>
-                <Label onMouseClicked="#sidebarAddNewRecord" styleClass="btn-primary" text="Add New Movie">
+                <Label onMouseClicked="#sidebarAddNewRecord" styleClass="btn-primary" text="Add Book">
                <stylesheets>
                   <URL value="@demo.css" />
                   <URL value="@styles.css" />
                </stylesheets></Label>
-                <Label onMouseClicked="#sidebarDeleteRecord" styleClass="btn-danger" text="Check In">
+                <Label onMouseClicked="#sidebarDeleteRecord" styleClass="btn-danger" text="Check Out">
                <stylesheets>
                   <URL value="@demo.css" />
                   <URL value="@styles.css" />
@@ -73,26 +73,25 @@
     <center>
         <VBox fx:id="vBox" minHeight="600.0" prefHeight="500.0" styleClass="content-section">
             <children>
-                <Label id="content-header" stylesheets="@demo.css" text="Currently Checked Out Books" textFill="#11c3c6" />
+                <Label id="content-header" stylesheets="@demo.css" text="Members List" textFill="#11c3c6" />
             
                 <!-- container using pref size as max size to not grow larger than the image -->
                 <VBox maxHeight="-Infinity" maxWidth="-Infinity" styleClass="my-rect" stylesheets="@demo.css" />  
             
             
                 <Label id="content" styleClass="content-section" stylesheets="@demo.css" text="This application uses SQLite and allows adding records, deleting records, searching records, and updating records" />
-                <TableView fx:id="checkedOutView" onMouseClicked="#showRowData" prefHeight="547.0" prefWidth="600.0" />
+                <TableView fx:id="memberView" onMouseClicked="#showRowData" prefHeight="547.0" prefWidth="600.0" />
                 
                             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                 <children>
-                    <TextField fx:id="titleTextField" prefWidth="175.0" promptText="Title" stylesheets="@styles.css" />
-                    <TextField fx:id="yearTextField" prefWidth="175.0" promptText="Year" stylesheets="@styles.css" />
-                    <TextField fx:id="ratingTextField" prefWidth="175.0" promptText="Rating" stylesheets="@styles.css" />
+                    <TextField fx:id="memNameText" prefWidth="175.0" promptText="Name" stylesheets="@styles.css" />
+                    <TextField fx:id="libNumText" prefWidth="175.0" promptText="Library Number" stylesheets="@styles.css" />
                 </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                 <children>
-                    <Button mnemonicParsing="false" onAction="#handleAddMovie" prefHeight="34.0" prefWidth="136.0" styleClass="btn-primary" stylesheets="@styles.css" text="Add New Movie" />
-                    <Button mnemonicParsing="false" onAction="#handleDeleteAction" prefHeight="34.0" prefWidth="116.0" styleClass="btn-danger" stylesheets="@styles.css" text="Check In" />
+                    <Button mnemonicParsing="false" onAction="#handleAddMovie" prefHeight="34.0" prefWidth="136.0" styleClass="btn-primary" stylesheets="@styles.css" text="Add Book" />
+                    <Button mnemonicParsing="false" onAction="#handleDeleteAction" prefHeight="34.0" prefWidth="116.0" styleClass="btn-danger" stylesheets="@styles.css" text="Check Out" />
                   <Button mnemonicParsing="false" onAction="#handleSearchAction" prefHeight="34.0" prefWidth="99.0" styleClass="btn-warning" stylesheets="@styles.css" text="Search" />
                   <Button mnemonicParsing="false" onAction="#handleShowAllRecords" prefHeight="34.0" prefWidth="136.0" styleClass="btn-success" stylesheets="@styles.css" text="Show All Records" />
                   <Button mnemonicParsing="false" onAction="#handleUpdateRecord" prefHeight="34.0" prefWidth="136.0" styleClass="btn-info" stylesheets="@styles.css" text="Update" />

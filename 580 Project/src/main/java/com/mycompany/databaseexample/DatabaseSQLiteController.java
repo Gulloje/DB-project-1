@@ -38,13 +38,18 @@ import javafx.scene.text.Text;
 public class DatabaseSQLiteController implements Initializable {
 
     @FXML
-    private TableView tableView; 
+    private TableView tableView = new TableView<Book>();
+    @FXML 
+    private TableView memberView = new TableView<Member>();
 
     @FXML
     private VBox vBox; //like the outer section of ui
 
     @FXML
     private TextField nameTextField, authorTextField, yearTextField;
+    
+    @FXML
+    private TextField memNameText, libNumText;
 
     @FXML
     Label footerLabel;
@@ -64,10 +69,11 @@ public class DatabaseSQLiteController implements Initializable {
     }
 
     String databaseURL = "jdbc:sqlite:src/main/resources/com/mycompany/databaseexample/BooksDB.db";
-    //String databaseURL = "jdbc:sqlite:BooksDB.db";
+   
     /* Connect to a sample database
      */
     private ObservableList<Book> data; //object that holds data
+    private ObservableList<Member> memData;
 
     /*
        ArrayList: Resizable-array implementation of the List interface. 
@@ -78,9 +84,11 @@ public class DatabaseSQLiteController implements Initializable {
     
     public DatabaseSQLiteController() throws SQLException {
         this.data = FXCollections.observableArrayList();
+        this.memData = FXCollections.observableArrayList();
     }
 
     private void intializeColumns() {
+
         id = new TableColumn("ID");
         id.setMinWidth(50);
         id.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
@@ -100,6 +108,25 @@ public class DatabaseSQLiteController implements Initializable {
         tableView.getColumns().addAll(id, name, author, year);
 
         
+        //initalize member table
+        id = new TableColumn("ID");
+        id.setMinWidth(50);
+        id.setCellValueFactory(new PropertyValueFactory<Member, Integer>("id"));
+        
+      
+        
+        TableColumn memName = new TableColumn("Name");
+        memName.setMinWidth(300);
+        memName.setCellValueFactory(new PropertyValueFactory<Member, String>("Name"));
+        
+        TableColumn libNum = new TableColumn("LibraryNumber");
+        libNum.setMinWidth(100);
+        libNum.setCellValueFactory(new PropertyValueFactory<Member, Integer>("LibraryNumber"));
+        
+        memberView.setItems(memData);
+        memberView.getColumns().addAll(memName, libNum);
+        
+        
         //tableView.setOpacity(0.3);
         /* Allow for the values in each cell to be changable */
     }
@@ -117,6 +144,7 @@ public class DatabaseSQLiteController implements Initializable {
             System.out.println("Connection to SQLite has been established.");
             System.out.println(databaseURL);
             String sql = "SELECT * FROM Books;";
+            String sql2 = "SELECT * FROM Members;";
             // Ensure we can query the actors table
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -132,8 +160,24 @@ public class DatabaseSQLiteController implements Initializable {
                 System.out.println( book.getId() + book.getName() + book.getAuthor() + book.getYear());
                 data.add(book);
             }
+            
+            stmt = conn.createStatement();
+            ResultSet rsMem = stmt.executeQuery(sql2);
+            System.out.println( rsMem.getString("Name"));
+            
+            while (rsMem.next()) {
+                //Movie movie;
+                //movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("year"), rs.getString("rating"));
+                //System.out.println(movie.getId() + " - " + movie.getTitle() + " - " + movie.getRating() + " - " + movie.getYear());
+                //data.add(movie);
+                Member member;
+                member = new Member(rsMem.getInt("LibraryNumber"), rsMem.getString("Name"));
+                System.out.println( member.getMemNum() + member.getName());
+                memData.add(member);
+            }
 
             rs.close();
+            rsMem.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

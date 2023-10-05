@@ -9,22 +9,27 @@ package com.mycompany.databaseexample;
  * @author jessi
  */
 public class Member {
-    
-    private int memNum;
     private String name;
-
-    /**
-     * @return the memNum
-     */
-    public int getMemNum() {
-        return memNum;
+    private int LibraryNum;
+    
+    
+    Member(int memNum, String name ) {
+        this.LibraryNum = memNum;
+        this.name = name;
     }
 
     /**
-     * @param memNum the memNum to set
+     * @return the LibraryNum
+     */
+    public int getMemNum() {
+        return LibraryNum;
+    }
+
+    /**
+     * @param memNum the LibraryNum to set
      */
     public void setMemNum(int memNum) {
-        this.memNum = memNum;
+        this.LibraryNum = memNum;
     }
 
     /**
