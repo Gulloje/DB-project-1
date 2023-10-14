@@ -45,7 +45,7 @@
                   <URL value="@demo.css" />
                   <URL value="@styles.css" />
                </stylesheets></Label>
-                <Label onMouseClicked="#sidebarDeleteRecord" styleClass="btn-danger" text="Check Out">
+                <Label onMouseClicked="#sidebarDeleteRecord" styleClass="btn-danger" text="Delete Book">
                <stylesheets>
                   <URL value="@demo.css" />
                   <URL value="@styles.css" />
@@ -67,6 +67,9 @@
                   <URL value="@styles.css" />
                </stylesheets>
             </Label>
+              <TextField fx:id="titleTextField" prefWidth="175.0" promptText="Title" stylesheets="@styles.css" />
+              <TextField fx:id="yearTextField" prefWidth="175.0" promptText="Year" stylesheets="@styles.css" />
+            <TextField fx:id="ratingTextField" prefWidth="175.0" promptText="Rating" stylesheets="@styles.css" />
             </children>
         </VBox>
     </left>
@@ -80,24 +83,22 @@
             
             
                 <Label id="content" styleClass="content-section" stylesheets="@demo.css" text="This application uses SQLite and allows adding records, deleting records, searching records, and updating records" />
-                <TableView fx:id="tableView" onMouseClicked="#showRowData" prefHeight="547.0" prefWidth="600.0" />
+                <TableView fx:id="tableView" onMouseClicked="#showRowData" prefHeight="340.0" prefWidth="741.0" />
                 
                             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                 <children>
-                    <TextField fx:id="titleTextField" prefWidth="175.0" promptText="Title" stylesheets="@styles.css" />
-                    <TextField fx:id="yearTextField" prefWidth="175.0" promptText="Year" stylesheets="@styles.css" />
-                    <TextField fx:id="ratingTextField" prefWidth="175.0" promptText="Rating" stylesheets="@styles.css" />
+                    <TextField fx:id="memberNumber" prefWidth="175.0" promptText="Rating" stylesheets="@styles.css" text="Library Number" />
                 </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="168.0" prefWidth="741.0" spacing="10.0">
                 <children>
                     <Button mnemonicParsing="false" onAction="#handleAddMovie" prefHeight="34.0" prefWidth="136.0" styleClass="btn-primary" stylesheets="@styles.css" text="Add Book" />
-                    <Button mnemonicParsing="false" onAction="#handleDeleteAction" prefHeight="34.0" prefWidth="116.0" styleClass="btn-danger" stylesheets="@styles.css" text="Check Out" />
+                    <Button mnemonicParsing="false" onAction="#handleCheckOutAction" prefHeight="34.0" prefWidth="116.0" styleClass="btn-danger" stylesheets="@styles.css" text="Check Out" />
                   <Button mnemonicParsing="false" onAction="#handleSearchAction" prefHeight="34.0" prefWidth="99.0" styleClass="btn-warning" stylesheets="@styles.css" text="Search" />
                   <Button mnemonicParsing="false" onAction="#handleShowAllRecords" prefHeight="34.0" prefWidth="136.0" styleClass="btn-success" stylesheets="@styles.css" text="Show All Records" />
                   <Button mnemonicParsing="false" onAction="#handleUpdateRecord" prefHeight="34.0" prefWidth="136.0" styleClass="btn-info" stylesheets="@styles.css" text="Update" />
                     
-                </children>
+                      </children>
             </HBox>
                 
             </children>
