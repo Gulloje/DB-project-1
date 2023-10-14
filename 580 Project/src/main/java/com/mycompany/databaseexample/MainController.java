@@ -89,6 +89,20 @@ public class MainController {
         }
 
     }  
+    @FXML
+    private void checkedOut() throws IOException {
+
+        try {
+            Pane newLoadedPane = FXMLLoader.load(getClass().getResource("CheckedOut.fxml"));
+            contentPane.getChildren().clear();
+            contentPane.getChildren().add(newLoadedPane);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }   
+    
     
     @FXML
     private void close() throws IOException {

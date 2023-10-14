@@ -138,15 +138,19 @@ public class DatabaseSQLiteController implements Initializable {
       
         
         TableColumn checkedLibNum = new TableColumn("Library Number");
-        checkedLibNum.setMinWidth(300);
+        checkedLibNum.setMinWidth(100);
         checkedLibNum.setCellValueFactory(new PropertyValueFactory<CheckOut, Integer>("LibraryNumber"));
         
         TableColumn checkedBookNum = new TableColumn("BookID");
         checkedBookNum.setMinWidth(100);
         checkedBookNum.setCellValueFactory(new PropertyValueFactory<CheckOut, Integer>("BookID"));
         
+        TableColumn checkedBookName = new TableColumn("Book Name");
+        checkedBookName.setMinWidth(300);
+        checkedBookName.setCellValueFactory(new PropertyValueFactory<CheckOut, String>("name"));
+        
         checkedOutView.setItems(checkOutData);
-        checkedOutView.getColumns().addAll(checkedLibNum, checkedBookNum);
+        checkedOutView.getColumns().addAll(checkedLibNum, checkedBookNum, checkedBookName);
         
         
         //tableView.setOpacity(0.3);
@@ -201,7 +205,7 @@ public class DatabaseSQLiteController implements Initializable {
             
             while (rsCheck.next()) {
                 CheckOut checkedOut;
-                checkedOut = new CheckOut(rsMem.getInt("LibraryNumber"), rsMem.getInt("BookID"));
+                checkedOut = new CheckOut(rsCheck.getInt("LibraryNumber"), rsCheck.getInt("BookID"), rsCheck.getString("name"));
                 System.out.println( checkedOut.getLibraryNumber() + checkedOut.getBookID());
                 checkOutData.add(checkedOut);
             }
@@ -254,6 +258,7 @@ public class DatabaseSQLiteController implements Initializable {
      * @param year
      * @throws java.sql.SQLException
      */
+    
     public void insert(String name, String author, int year) throws SQLException {
         int last_inserted_id = 0;
         Connection conn = null;
@@ -277,6 +282,7 @@ public class DatabaseSQLiteController implements Initializable {
             if (rs.next()) {
                 last_inserted_id = rs.getInt(1);
             }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -344,15 +350,17 @@ public class DatabaseSQLiteController implements Initializable {
             conn = DriverManager.getConnection(databaseURL);
 
             String sql = "DELETE FROM Books WHERE id=" + Integer.toString(id);
+            String sql2 = "DELETE FROM CheckOut WHERE BookID=" + Integer.toString(id);
             //String sql = "INSERT INTO CheckOut (id, name, author, year) SELECT id, name, author, year FROM Books WHERE id=" + Integer.toString(id);
 
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
+            //stmt.executeUpdate(sql2);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-
+            checkedOutView.getItems().remove(selectedIndex);
             tableView.getItems().remove(selectedIndex); //selected index != id because selected index changes based off deletions
             System.out.println("Record Deleted Successfully");
             try {
@@ -389,6 +397,22 @@ public class DatabaseSQLiteController implements Initializable {
             }
 
         }
+        if (checkedOutView.getSelectionModel().getSelectedItem() != null) {
+
+            int selectedIndex = checkedOutView.getSelectionModel().getSelectedIndex();
+            System.out.println("Selected Index: " + selectedIndex);
+
+            if (selectedIndex >= 0) {
+
+                System.out.println("Handle Delete Action");
+                System.out.println(index);
+               
+                CheckOut checkOut = (CheckOut) checkedOutView.getSelectionModel().getSelectedItem();
+                
+                deleteRecord(checkOut.getBookID(), selectedIndex);
+            }
+
+        }
     }
     
         public void checkOut(int id, int selectedIndex) {
@@ -401,8 +425,9 @@ public class DatabaseSQLiteController implements Initializable {
 
             int memberToInsert =  Integer.valueOf(memberNumber.getText());
             //String sql = "INSERT INTO CheckOut (id, name, author, year) SELECT id, name, author, year FROM Books WHERE id=" + Integer.toString(id);
-            String sql = "INSERT INTO CheckOut (BookID, LibraryNumber) SELECT BOOKS.id, Members.LibraryNumber FROM Books, Members "
+            String sql = "INSERT INTO CheckOut (BookID, LibraryNumber, Name, Author, Year) SELECT BOOKS.id, Members.LibraryNumber, BOOKS.name, Books.author, Books.year FROM Books, Members "
                     +"WHERE Books.id = " +Integer.toString(id) + " AND Members.LibraryNumber= " +memberToInsert;
+            String deleteSQL = "DELETE FROM Books WHERE id=" +Integer.toString(id);       
                     //System.out.println(sql);
                     
                     /*INSERT INTO CheckOut (BookID, MemberID)
@@ -413,6 +438,7 @@ public class DatabaseSQLiteController implements Initializable {
                     
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
+            stmt.executeUpdate(deleteSQL);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -430,7 +456,7 @@ public class DatabaseSQLiteController implements Initializable {
         }
 
     }
-        @FXML
+    @FXML
     private void handleCheckOutAction(ActionEvent event) throws IOException {
         System.out.println("Check Out Book");
         //Check whether item is selected and set value of selected item to Label
@@ -450,6 +476,69 @@ public class DatabaseSQLiteController implements Initializable {
                 System.out.println("Author: " + book.getAuthor());
                 System.out.println("year: " + book.getYear());
                 checkOut(book.getId(), selectedIndex);
+            }
+
+        }
+    }
+    
+    public void checkIn(int id, int selectedIndex) {
+
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            // create a connection to the database
+            conn = DriverManager.getConnection(databaseURL);
+
+            //String sql = "INSERT INTO CheckOut (id, name, author, year) SELECT id, name, author, year FROM Books WHERE id=" + Integer.toString(id);
+            String sql = "INSERT INTO Books (id, name, author, year) SELECT BookID, name, author, year FROM CheckOut WHERE BookID =" + Integer.toString(id);
+            String sql2 = "DELETE FROM CheckOut WHERE BookID =" +Integer.toString(id);
+            
+            
+                    /*INSERT INTO CheckOut (BookID, MemberID)
+                    SELECT Books.id, Members.LibraryNumber
+                    FROM Books, Members
+                    WHERE Books.id = 100
+                    AND Members.LibraryNumber = 222;*/
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql2);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            checkedOutView.getItems().remove(selectedIndex); //selected index != id because selected index changes based off deletions
+            System.out.println("Record Checked in Successfully");
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+    }
+    @FXML
+    private void handleCheckInAction(ActionEvent event) throws IOException {
+        System.out.println("Check In Book");
+        //Check whether item is selected and set value of selected item to Label
+        if (checkedOutView.getSelectionModel().getSelectedItem() != null) {
+
+            int selectedIndex = checkedOutView.getSelectionModel().getSelectedIndex();
+            System.out.println("Selected Index: " + selectedIndex);
+
+            if (selectedIndex >= 0) {
+
+                System.out.println("Handle checkIn Action");
+                System.out.println(index);
+                //Movie movie = (Movie) tableView.getSelectionModel().getSelectedItem();
+                CheckOut checkOut = (CheckOut) checkedOutView.getSelectionModel().getSelectedItem();
+                System.out.println("ID: " + checkOut.getBookID());
+                System.out.println("Name: " + checkOut.getName());
+                System.out.println("Author: " + checkOut.getAuthor());
+                System.out.println("year: " + checkOut.getYear());
+                checkIn(checkOut.getBookID(), selectedIndex);
             }
 
         }
@@ -541,6 +630,8 @@ public class DatabaseSQLiteController implements Initializable {
         tableView.setItems(tableItems);
 
     }
+    
+    
 
     @FXML
     private void handleShowAllRecords(ActionEvent event) throws IOException, SQLException {

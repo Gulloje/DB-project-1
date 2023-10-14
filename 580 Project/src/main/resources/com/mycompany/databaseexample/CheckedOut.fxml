@@ -40,35 +40,14 @@
     <left>
         <VBox prefHeight="588.0" prefWidth="192.0" styleClass="sidebar-section">
             <children>
-                <Label onMouseClicked="#sidebarAddNewRecord" styleClass="btn-primary" text="Add Item">
-               <stylesheets>
-                  <URL value="@demo.css" />
-                  <URL value="@styles.css" />
-               </stylesheets></Label>
-                <Label onMouseClicked="#sidebarDeleteRecord" styleClass="btn-danger" text="Delete Item">
-               <stylesheets>
-                  <URL value="@demo.css" />
-                  <URL value="@styles.css" />
-               </stylesheets></Label>
-            <Label onMouseClicked="#sidebarSearch" styleClass="btn-warning" text="Search">
-               <stylesheets>
-                  <URL value="@demo.css" />
-                  <URL value="@styles.css" />
-               </stylesheets>
-            </Label>
-                <Label onMouseClicked="#sidebarShowAllRecords" styleClass="btn-success" text="Show All Records">
-               <stylesheets>
-                  <URL value="@demo.css" />
-                  <URL value="@styles.css" />
-               </stylesheets></Label>
-            <Label onMouseClicked="#sidebarUpdateRecord" styleClass="btn-info" text="Update">
-               <stylesheets>
-                  <URL value="@demo.css" />
-                  <URL value="@styles.css" />
-               </stylesheets>
-            </Label>
-              <TextField fx:id="yearTextField" prefWidth="175.0" promptText="Year" stylesheets="@styles.css" text="MemberID" />
-            <TextField fx:id="ratingTextField" prefWidth="175.0" promptText="Rating" stylesheets="@styles.css" text="BookID" />
+            <Button mnemonicParsing="false" onAction="#handleCheckInAction" prefHeight="34.0" prefWidth="222.0" styleClass="btn-primary" stylesheets="@styles.css" text="Check In" />
+            <Button mnemonicParsing="false" onAction="#handleDeleteAction" prefHeight="34.0" prefWidth="202.0" styleClass="btn-danger" stylesheets="@styles.css" text="Delete" />
+            <Button mnemonicParsing="false" onAction="#handleUpdateRecord" prefHeight="34.0" prefWidth="208.0" styleClass="btn-info" stylesheets="@styles.css" text="Update" />
+            <Button mnemonicParsing="false" onAction="#handleShowAllRecords" prefHeight="34.0" prefWidth="213.0" styleClass="btn-success" stylesheets="@styles.css" text="Show All Records" />
+            <Button mnemonicParsing="false" onAction="#handleSearchAction" prefHeight="34.0" prefWidth="207.0" styleClass="btn-warning" stylesheets="@styles.css" text="Search" />
+            <TextField fx:id="memberNumber2" prefWidth="175.0" promptText="Library Number" stylesheets="@styles.css" />
+            <TextField fx:id="memberNumber12" prefWidth="175.0" promptText="Book ID" stylesheets="@styles.css" />
+            <TextField fx:id="memberNumber111" prefWidth="175.0" promptText="Book Name" stylesheets="@styles.css" />
             </children>
         </VBox>
     </left>
@@ -82,17 +61,18 @@
             
             
                 <Label id="content" styleClass="content-section" stylesheets="@demo.css" text="This application uses SQLite and allows adding records, deleting records, searching records, and updating records" />
-                <TableView fx:id="tableView" onMouseClicked="#showRowData" prefHeight="340.0" prefWidth="741.0" />
+                <TableView fx:id="checkedOutView" onMouseClicked="#showRowData" prefHeight="340.0" prefWidth="741.0" />
                 
                             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                 <children>
-                    <TextField fx:id="memberNumber" prefWidth="175.0" promptText="Rating" stylesheets="@styles.css" text="Library Number" />
-                  <TextField fx:id="memberNumber1" prefWidth="175.0" promptText="Rating" stylesheets="@styles.css" text="Book ID" />
+                    <TextField fx:id="memberNumber" prefWidth="175.0" promptText="Library Number" stylesheets="@styles.css" />
+                  <TextField fx:id="memberNumber1" prefWidth="175.0" promptText="Book ID" stylesheets="@styles.css" />
+                  <TextField fx:id="memberNumber11" prefWidth="175.0" promptText="Book Name" stylesheets="@styles.css" />
                 </children>
             </HBox>
             <HBox prefHeight="168.0" prefWidth="741.0" spacing="10.0">
                 <children>
-                    <Button mnemonicParsing="false" onAction="#handleCheckOutAction" prefHeight="34.0" prefWidth="116.0" styleClass="btn-danger" stylesheets="@styles.css" text="Check Out" />
+                  <Button mnemonicParsing="false" onAction="#handleCheckInAction" prefHeight="34.0" prefWidth="110.0" styleClass="btn-primary" stylesheets="@styles.css" text="Check In" />
                   <Button mnemonicParsing="false" onAction="#handleSearchAction" prefHeight="34.0" prefWidth="99.0" styleClass="btn-warning" stylesheets="@styles.css" text="Search" />
                   <Button mnemonicParsing="false" onAction="#handleShowAllRecords" prefHeight="34.0" prefWidth="136.0" styleClass="btn-success" stylesheets="@styles.css" text="Show All Records" />
                   <Button mnemonicParsing="false" onAction="#handleUpdateRecord" prefHeight="34.0" prefWidth="136.0" styleClass="btn-info" stylesheets="@styles.css" text="Update" />
