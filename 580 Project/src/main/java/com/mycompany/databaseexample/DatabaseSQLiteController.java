@@ -355,13 +355,14 @@ public class DatabaseSQLiteController implements Initializable {
 
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
-            //stmt.executeUpdate(sql2);
+            stmt.executeUpdate(sql2);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            checkedOutView.getItems().remove(selectedIndex);
+            
             tableView.getItems().remove(selectedIndex); //selected index != id because selected index changes based off deletions
+            checkedOutView.getItems().remove(selectedIndex);
             System.out.println("Record Deleted Successfully");
             try {
                 if (conn != null) {
@@ -437,14 +438,20 @@ public class DatabaseSQLiteController implements Initializable {
                     AND Members.LibraryNumber = 222;*/
                     
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.executeUpdate(deleteSQL);
+            if (memberNumber.getText()!= null) {
+                stmt.executeUpdate(sql);
+                stmt.executeUpdate(deleteSQL);
+            }
+            //stmt.executeUpdate(sql);
+            //stmt.executeUpdate(deleteSQL);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-
-            tableView.getItems().remove(selectedIndex); //selected index != id because selected index changes based off deletions
+            if (memberNumber.getText()!= null) {
+                tableView.getItems().remove(selectedIndex);
+            }
+            //tableView.getItems().remove(selectedIndex); //selected index != id because selected index changes based off deletions
             System.out.println("Record Checked Out Successfully");
             try {
                 if (conn != null) {
